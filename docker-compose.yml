@@ -1,0 +1,14 @@
+# Optional: a local MySQL 8 for running LedgerLite against a real server.
+#   docker compose up -d
+#   export LEDGERLITE_DB_URL="jdbc:mysql://localhost:3306/ledgerlite"
+#   export LEDGERLITE_DB_USER=ledger LEDGERLITE_DB_PASSWORD=ledger
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ledgerlite
+      MYSQL_USER: ledger
+      MYSQL_PASSWORD: ledger
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
