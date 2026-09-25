@@ -1,10 +1,23 @@
 # LedgerLite — Concurrent Transaction Processing Engine
 
+![Java 17](https://img.shields.io/badge/Java-17-orange) ![MySQL 8](https://img.shields.io/badge/MySQL-8-blue) ![Tests](https://img.shields.io/badge/tests-16%20passing-brightgreen) ![License: MIT](https://img.shields.io/badge/license-MIT-green)
+
 A core-Java engine that applies debit / credit / transfer instructions to account balances
 **in parallel**, without ever leaving the ledger in a partial state, and with an
 **append-only audit log** that can replay and reconcile every balance.
 
 **Stack:** Java 17 · Multithreading (`ExecutorService`, `ReentrantLock`) · JDBC · MySQL 8 (Apache Derby embedded for demo/tests) · JUnit 4 · Maven
+
+## Highlights
+
+- Processes **5,000 instructions in parallel** on a thread pool with no lost updates and no deadlocks.
+- Every instruction is **all-or-nothing** (one JDBC transaction) and runs **exactly once**.
+- An **append-only audit log** can rebuild and verify every account balance.
+- New instruction types plug in **without changing the engine**.
+
+## Contents
+
+[What it does](#what-it-does) · [Architecture](#architecture) · [Project layout](#project-layout) · [Running it](#running-it) · [Tests](#tests-that-guard-concurrency) · [Design notes](#design-notes--limits) · [Author](#author) · [License](#license)
 
 ---
 
@@ -123,3 +136,11 @@ The schema is created automatically on first run.
   per account. The `CHECK (balance >= 0)` constraint is a last line of defence in MySQL.
 - Rejections are recorded in a separate short transaction *after* the rollback, so the
   outcome is persisted even though the instruction's own changes are discarded.
+
+## Author
+
+**Gorika Shukla** · GitHub [@gorikashukla17-wq](https://github.com/gorikashukla17-wq)
+
+## License
+
+Released under the [MIT License](LICENSE).
